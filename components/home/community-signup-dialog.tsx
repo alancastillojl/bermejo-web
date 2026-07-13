@@ -19,7 +19,7 @@ const inputClassName =
 export function CommunitySignupDialog({
   trigger,
 }: {
-  trigger: React.ReactNode;
+  trigger: React.ReactElement;
 }) {
   const [open, setOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);

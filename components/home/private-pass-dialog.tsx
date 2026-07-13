@@ -18,7 +18,7 @@ import { PRIVATE_PASS_CODE } from "@/lib/constants";
 export function PrivatePassDialog({
   trigger,
 }: {
-  trigger: React.ReactNode;
+  trigger: React.ReactElement;
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);

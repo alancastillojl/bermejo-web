@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { siteConfig } from "@/lib/constants";
 import { CartNavLink } from "@/components/layout/cart-nav-link";
+import { MobileMenu } from "@/components/layout/mobile-menu";
 
 const NAV_LINKS = [
   { label: "Collections", href: "#featured-drop" },
@@ -11,7 +12,7 @@ const NAV_LINKS = [
 
 export function SiteHeader() {
   return (
-    <header className="mx-auto flex w-full max-w-[1800px] items-center justify-between px-6 py-8 md:px-10">
+    <header className="relative mx-auto flex w-full max-w-[1800px] items-center justify-between px-6 py-8 md:px-10">
       <Link href="/" aria-label={siteConfig.name}>
         <Image
           src="/images/logo-oval.png"
@@ -30,6 +31,8 @@ export function SiteHeader() {
         ))}
         <CartNavLink />
       </nav>
+
+      <MobileMenu />
     </header>
   );
 }

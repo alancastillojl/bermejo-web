@@ -9,9 +9,9 @@ export function CartNavLink() {
     <button
       type="button"
       onClick={openCart}
-      className="hover:opacity-70"
+      className="uppercase hover:opacity-70"
     >
-      Cart ({itemCount})
+      Bag ({itemCount})
     </button>
   );
 }

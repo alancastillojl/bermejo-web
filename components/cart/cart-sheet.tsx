@@ -8,12 +8,19 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart-context";
 
 export function CartSheet() {
-  const { items, isOpen, setOpen, removeItem, updateQuantity, subtotal } =
-    useCart();
+  const {
+    items,
+    isOpen,
+    setOpen,
+    removeItem,
+    updateQuantity,
+    subtotal,
+    checkoutUrl,
+    isLoading,
+  } = useCart();
 
   return (
     <Sheet open={isOpen} onOpenChange={setOpen}>
@@ -32,7 +39,7 @@ export function CartSheet() {
           ) : (
             items.map((item) => (
               <div
-                key={item.id}
+                key={item.lineId}
                 className="flex gap-4 border-b border-ink/10 p-6"
               >
                 <div className="relative h-28 w-24 shrink-0 overflow-hidden bg-card">
@@ -44,13 +51,7 @@ export function CartSheet() {
                       sizes="96px"
                       className="object-contain p-2"
                     />
-                  ) : (
-                    <div
-                      className="h-full w-full"
-                      style={{ backgroundColor: item.placeholderColor }}
-                      aria-hidden
-                    />
-                  )}
+                  ) : null}
                 </div>
 
                 <div className="flex flex-1 flex-col gap-2">
@@ -58,7 +59,7 @@ export function CartSheet() {
                     {item.name}
                   </p>
                   <p className="text-[11px] font-semibold tracking-[0.05em] text-ink/50 uppercase">
-                    {item.color} / {item.size}
+                    {[item.color, item.size].filter(Boolean).join(" / ")}
                   </p>
 
                   <div className="mt-auto flex items-center justify-between">
@@ -66,10 +67,11 @@ export function CartSheet() {
                       <button
                         type="button"
                         aria-label="Disminuir cantidad"
+                        disabled={isLoading}
                         onClick={() =>
-                          updateQuantity(item.id, item.quantity - 1)
+                          updateQuantity(item.lineId, item.quantity - 1)
                         }
-                        className="text-ink/60 hover:text-ink"
+                        className="text-ink/60 hover:text-ink disabled:opacity-40"
                       >
                         <Minus className="size-3" />
                       </button>
@@ -79,10 +81,11 @@ export function CartSheet() {
                       <button
                         type="button"
                         aria-label="Aumentar cantidad"
+                        disabled={isLoading}
                         onClick={() =>
-                          updateQuantity(item.id, item.quantity + 1)
+                          updateQuantity(item.lineId, item.quantity + 1)
                         }
-                        className="text-ink/60 hover:text-ink"
+                        className="text-ink/60 hover:text-ink disabled:opacity-40"
                       >
                         <Plus className="size-3" />
                       </button>
@@ -94,8 +97,9 @@ export function CartSheet() {
 
                   <button
                     type="button"
-                    onClick={() => removeItem(item.id)}
-                    className="self-start text-[11px] font-semibold tracking-[0.05em] text-brand uppercase hover:opacity-70"
+                    disabled={isLoading}
+                    onClick={() => removeItem(item.lineId)}
+                    className="self-start text-[11px] font-semibold tracking-[0.05em] text-brand uppercase hover:opacity-70 disabled:opacity-40"
                   >
                     Remove
                   </button>
@@ -111,12 +115,12 @@ export function CartSheet() {
               <span>Subtotal</span>
               <span>${subtotal}</span>
             </div>
-            <Button
-              nativeButton
-              className="w-full rounded-none bg-ink text-xs font-semibold tracking-[0.2em] text-background uppercase hover:bg-ink/90"
+            <a
+              href={checkoutUrl ?? "#"}
+              className="block w-full rounded-none bg-ink py-3 text-center text-xs font-semibold tracking-[0.2em] text-background uppercase hover:bg-ink/90"
             >
               Checkout
-            </Button>
+            </a>
           </div>
         )}
       </SheetContent>

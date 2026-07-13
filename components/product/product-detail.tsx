@@ -1,83 +1,75 @@
 "use client";
 
 import { useState } from "react";
-import type { AnyProduct } from "@/lib/products";
+import type { ShopifyProduct } from "@/lib/shopify";
 import { colorToHex } from "@/lib/color-swatch";
 import { useCart } from "@/lib/cart-context";
 import { SizeSelector } from "@/components/product/size-selector";
 import { AccordionSection } from "@/components/product/accordion-section";
 import { ProductGallery } from "@/components/product/product-gallery";
 
-export function ProductDetail({ product }: { product: AnyProduct }) {
-  const { addItem, openCart } = useCart();
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+export function ProductDetail({ product }: { product: ShopifyProduct }) {
+  const { addItem, isLoading } = useCart();
+  const variants = product.variants.edges.map((e) => e.node);
+  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
+    null
+  );
 
-  const isPrivate = product.kind === "private";
-  const images = [
-    product.image,
-    "hoverImage" in product ? product.hoverImage : undefined,
-  ].filter((src): src is string => Boolean(src));
+  const price = Number(product.priceRange.minVariantPrice.amount);
+  const compareAtPrice = Number(
+    product.compareAtPriceRange.minVariantPrice.amount
+  );
+  const color =
+    variants[0]?.selectedOptions.find((o) => /color/i.test(o.name))?.value ??
+    "";
+  const images = product.images.edges.map((e) => e.node.url);
 
   function handleAddToCart() {
-    if (!selectedSize) return;
-    addItem({
-      id: product.id,
-      name: product.name,
-      color: product.color,
-      size: selectedSize,
-      price: product.price,
-      image: product.image,
-      placeholderColor: product.placeholderColor,
-    });
-    openCart();
+    if (!selectedVariantId) return;
+    addItem(selectedVariantId);
   }
 
   return (
     <div className="mx-auto grid w-full max-w-[1800px] grid-cols-1 gap-10 px-6 py-10 md:grid-cols-2 md:px-10 md:py-16">
-      <ProductGallery
-        images={images}
-        alt={`${product.name} ${product.color}`}
-        placeholderColor={product.placeholderColor}
-      />
+      <ProductGallery images={images} alt={product.title} />
 
       <div className="flex flex-col">
         <h1 className="text-xl font-semibold tracking-tight text-ink uppercase md:text-2xl">
-          {product.name}
+          {product.title}
         </h1>
 
         <div className="mt-3 flex items-center gap-3">
-          {isPrivate && (
+          {compareAtPrice > price && (
             <span className="text-sm font-semibold text-ink/40 line-through">
-              ${product.originalPrice}
+              ${compareAtPrice}
             </span>
           )}
-          <span className="text-sm font-semibold text-ink">
-            ${product.price}
-          </span>
-          <span className="mx-1 h-4 w-px bg-ink/20" aria-hidden />
-          <span
-            className="size-4 border border-ink/20"
-            style={{
-              backgroundColor: colorToHex(product.color, product.placeholderColor),
-            }}
-            aria-hidden
-          />
-          <span className="text-xs font-semibold tracking-[0.1em] text-ink/70 uppercase">
-            {product.color}
-          </span>
+          <span className="text-sm font-semibold text-ink">${price}</span>
+          {color && (
+            <>
+              <span className="mx-1 h-4 w-px bg-ink/20" aria-hidden />
+              <span
+                className="size-4 border border-ink/20"
+                style={{ backgroundColor: colorToHex(color) }}
+                aria-hidden
+              />
+              <span className="text-xs font-semibold tracking-[0.1em] text-ink/70 uppercase">
+                {color}
+              </span>
+            </>
+          )}
         </div>
 
         <div className="mt-6">
           <SizeSelector
-            sizes={product.sizes}
-            soldOutSizes={product.soldOutSizes}
-            selectedSize={selectedSize}
-            onSelect={setSelectedSize}
+            variants={variants}
+            selectedVariantId={selectedVariantId}
+            onSelect={setSelectedVariantId}
           />
 
           <button
             type="button"
-            disabled={!selectedSize}
+            disabled={!selectedVariantId || isLoading}
             onClick={handleAddToCart}
             className="mt-3 w-full bg-brand py-3 text-xs font-semibold tracking-[0.2em] text-brand-foreground uppercase transition-opacity hover:bg-brand/90 disabled:cursor-not-allowed disabled:opacity-40"
           >

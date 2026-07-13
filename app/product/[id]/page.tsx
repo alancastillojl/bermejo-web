@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { ProductDetail } from "@/components/product/product-detail";
-import { getProductById } from "@/lib/products";
+import { getProductByHandle } from "@/lib/shopify";
 
 export default async function ProductPage({
   params,
@@ -10,7 +10,7 @@ export default async function ProductPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const product = getProductById(id);
+  const product = await getProductByHandle(id);
 
   if (!product) {
     notFound();

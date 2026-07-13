@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart-context";
 import { CartSheet } from "@/components/cart/cart-sheet";
@@ -34,6 +35,7 @@ export default function RootLayout({
           {children}
           <CartSheet />
         </CartProvider>
+        <Analytics />
       </body>
     </html>
   );

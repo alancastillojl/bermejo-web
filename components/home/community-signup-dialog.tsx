@@ -84,10 +84,18 @@ export function CommunitySignupDialog({
 
         {submitted ? (
           <p className="text-xs leading-relaxed text-ink/70">
-            Gracias por ser parte de nuestra comunidad de Bermejo. Siempre
-            buscamos que más que una tienda en línea sea nuestro punto de
-            conexión con personas que comparten los mismos valores. Espera
-            más noticias pronto por medio de tu correo electrónico.
+            Thank you for becoming part of Bermejo.
+            <br />
+            <br />
+            Our community members receive access to exclusive pieces,
+            priority access to pre-sales, events, and more.
+            <br />
+            <br />
+            You will soon receive an email with more information about your
+            membership.
+            <br />
+            <br />
+            Thank you.
           </p>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">

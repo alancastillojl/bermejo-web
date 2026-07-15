@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { siteConfig } from "@/lib/constants";
+import { siteConfig, CONTACT_EMAIL } from "@/lib/constants";
 
 const FOOTER_LINKS = ["FAQ", "Shipping", "Returns", "Terms", "Privacy"];
 
@@ -13,6 +13,9 @@ export function SiteFooter() {
               {label}
             </Link>
           ))}
+          <Link href={`mailto:${CONTACT_EMAIL}`} className="hover:text-ink">
+            Contact
+          </Link>
         </nav>
 
         <Link

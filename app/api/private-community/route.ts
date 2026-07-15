@@ -16,7 +16,7 @@ export async function POST(request: Request) {
 
   try {
     await resend.emails.send({
-      from: "Bermejo Private Community <onboarding@resend.dev>",
+      from: "Bermejo <hola@bermejocult.com>",
       to: CONTACT_EMAIL,
       replyTo: email,
       subject: `Nueva solicitud de Private Community — ${name}`,

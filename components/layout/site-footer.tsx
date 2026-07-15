@@ -19,7 +19,7 @@ export function SiteFooter() {
         </nav>
 
         <Link
-          href="https://instagram.com"
+          href="https://www.instagram.com/bermejoclo/"
           aria-label="Instagram"
           className="text-ink/80 hover:text-brand justify-self-center"
         >

@@ -23,6 +23,8 @@ export function CommunitySignupDialog({
 }) {
   const [open, setOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState(false);
   const [form, setForm] = useState({
     name: "",
     age: "",
@@ -30,15 +32,30 @@ export function CommunitySignupDialog({
     social: "",
   });
 
-  function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    setSubmitted(true);
+    setSending(true);
+    setError(false);
+    try {
+      const res = await fetch("/api/private-community", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("request failed");
+      setSubmitted(true);
+    } catch {
+      setError(true);
+    } finally {
+      setSending(false);
+    }
   }
 
   function resetAndClose(next: boolean) {
     setOpen(next);
     if (!next) {
       setSubmitted(false);
+      setError(false);
       setForm({ name: "", age: "", email: "", social: "" });
     }
   }
@@ -107,13 +124,20 @@ export function CommunitySignupDialog({
               className={inputClassName}
             />
 
+            {error && (
+              <p className="text-xs font-semibold text-destructive uppercase">
+                No se pudo enviar. Intenta de nuevo.
+              </p>
+            )}
+
             <DialogFooter className="mt-1">
               <Button
                 type="submit"
                 nativeButton
-                className="w-full rounded-none bg-brand text-xs font-semibold tracking-[0.2em] text-brand-foreground uppercase hover:bg-brand/90"
+                disabled={sending}
+                className="w-full rounded-none bg-brand text-xs font-semibold tracking-[0.2em] text-brand-foreground uppercase hover:bg-brand/90 disabled:opacity-50"
               >
-                Enviar
+                {sending ? "Enviando..." : "Enviar"}
               </Button>
             </DialogFooter>
           </form>

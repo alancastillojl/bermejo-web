@@ -16,6 +16,11 @@ import {
 const inputClassName =
   "rounded-none border-ink/30 bg-transparent text-xs font-semibold tracking-[0.05em] text-ink uppercase shadow-none placeholder:text-ink/40 focus-visible:border-brand focus-visible:ring-0";
 
+const rawFieldClassName =
+  "h-8 w-full min-w-0 rounded-none border border-ink/30 bg-transparent px-2.5 py-1 text-xs font-semibold tracking-[0.05em] text-ink uppercase outline-none focus-visible:border-brand";
+
+const SOCIAL_PLATFORMS = ["Facebook", "Instagram", "LinkedIn", "X"];
+
 export function CommunitySignupDialog({
   trigger,
 }: {
@@ -25,12 +30,9 @@ export function CommunitySignupDialog({
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState(false);
-  const [form, setForm] = useState({
-    name: "",
-    age: "",
-    email: "",
-    social: "",
-  });
+  const [form, setForm] = useState({ name: "", age: "", email: "" });
+  const [platform, setPlatform] = useState("");
+  const [username, setUsername] = useState("");
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -40,7 +42,10 @@ export function CommunitySignupDialog({
       const res = await fetch("/api/private-community", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          social: `${platform} @${username}`,
+        }),
       });
       if (!res.ok) throw new Error("request failed");
       setSubmitted(true);
@@ -56,7 +61,9 @@ export function CommunitySignupDialog({
     if (!next) {
       setSubmitted(false);
       setError(false);
-      setForm({ name: "", age: "", email: "", social: "" });
+      setForm({ name: "", age: "", email: "" });
+      setPlatform("");
+      setUsername("");
     }
   }
 
@@ -86,7 +93,7 @@ export function CommunitySignupDialog({
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             <Input
               required
-              placeholder="Nombre"
+              placeholder="Nombre y apellido"
               value={form.name}
               onChange={(event) =>
                 setForm((f) => ({ ...f, name: event.target.value }))
@@ -114,15 +121,47 @@ export function CommunitySignupDialog({
               }
               className={inputClassName}
             />
-            <Input
-              required
-              placeholder="Tu red social principal"
-              value={form.social}
-              onChange={(event) =>
-                setForm((f) => ({ ...f, social: event.target.value }))
-              }
-              className={inputClassName}
-            />
+
+            {platform ? (
+              <div className={`flex items-center gap-2 ${rawFieldClassName}`}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPlatform("");
+                    setUsername("");
+                  }}
+                  className="shrink-0 text-ink/50 hover:text-brand"
+                  aria-label="Cambiar red social"
+                >
+                  {platform}
+                </button>
+                <span className="shrink-0 text-ink/50">@</span>
+                <input
+                  required
+                  autoFocus
+                  placeholder="username"
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
+                  className="w-full bg-transparent normal-case outline-none placeholder:text-ink/40"
+                />
+              </div>
+            ) : (
+              <select
+                required
+                defaultValue=""
+                onChange={(event) => setPlatform(event.target.value)}
+                className={rawFieldClassName}
+              >
+                <option value="" disabled>
+                  Tu red social principal
+                </option>
+                {SOCIAL_PLATFORMS.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            )}
 
             {error && (
               <p className="text-xs font-semibold text-destructive uppercase">

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import { PRIVATE_COMMUNITY_EMAIL } from "@/lib/constants";
+import { CONTACT_EMAIL } from "@/lib/constants";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
   try {
     await resend.emails.send({
       from: "Bermejo <hola@bermejocult.com>",
-      to: PRIVATE_COMMUNITY_EMAIL,
+      to: CONTACT_EMAIL,
       replyTo: email,
       subject: `Nueva solicitud de Private Community — ${name}`,
       html: `

@@ -51,15 +51,13 @@ export function PrivatePassDialog({
       <DialogTrigger render={trigger} />
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-xs font-semibold tracking-[0.2em] uppercase">
-            Private Pass
-          </DialogTitle>
+          <DialogTitle>Private Pass</DialogTitle>
           <DialogDescription>
             Ingresa tu código de acceso para entrar a la Founders Collection.
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <Input
             autoFocus
             placeholder="Código de acceso"
@@ -68,19 +66,19 @@ export function PrivatePassDialog({
               setCode(event.target.value);
               setError(false);
             }}
-            className="h-11 rounded-none border-ink/30 bg-transparent text-center text-xs font-semibold tracking-[0.2em] text-ink uppercase shadow-none placeholder:text-ink/40 focus-visible:border-brand focus-visible:ring-0"
+            className="h-12 rounded-none border-ink/20 bg-transparent text-center text-sm font-normal tracking-wide text-ink shadow-none placeholder:text-ink/35 focus-visible:border-brand focus-visible:ring-0"
           />
           {error && (
-            <p className="text-xs font-semibold text-destructive uppercase">
+            <p className="text-center text-xs font-normal text-destructive">
               Código inválido. Intenta de nuevo.
             </p>
           )}
 
-          <DialogFooter className="mt-1">
+          <DialogFooter>
             <Button
               type="submit"
               nativeButton
-              className="w-full rounded-none bg-brand text-xs font-semibold tracking-[0.2em] text-brand-foreground uppercase hover:bg-brand/90"
+              className="h-12 w-full rounded-none bg-brand text-sm font-normal tracking-wide text-brand-foreground hover:bg-brand/90"
             >
               Entrar
             </Button>

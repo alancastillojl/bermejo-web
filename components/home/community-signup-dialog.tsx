@@ -14,10 +14,10 @@ import {
 } from "@/components/ui/dialog";
 
 const inputClassName =
-  "rounded-none border-ink/30 bg-transparent text-xs font-semibold tracking-[0.05em] text-ink uppercase shadow-none placeholder:text-ink/40 focus-visible:border-brand focus-visible:ring-0";
+  "h-12 rounded-none border-ink/20 bg-transparent text-sm font-normal tracking-normal text-ink shadow-none placeholder:text-ink/35 focus-visible:border-brand focus-visible:ring-0";
 
 const rawFieldClassName =
-  "h-8 w-full min-w-0 rounded-none border border-ink/30 bg-transparent px-2.5 py-1 text-xs font-semibold tracking-[0.05em] text-ink uppercase outline-none focus-visible:border-brand";
+  "h-12 w-full min-w-0 rounded-none border border-ink/20 bg-transparent px-3 py-1 text-sm font-normal tracking-normal text-ink outline-none focus-visible:border-brand";
 
 const SOCIAL_PLATFORMS = ["Facebook", "Instagram", "LinkedIn", "X"];
 
@@ -72,9 +72,7 @@ export function CommunitySignupDialog({
       <DialogTrigger render={trigger} />
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-xs font-semibold tracking-[0.2em] uppercase">
-            Private Community
-          </DialogTitle>
+          <DialogTitle>Private Community</DialogTitle>
           {!submitted && (
             <DialogDescription>
               Déjanos tus datos para acceder a la comunidad privada de Bermejo.
@@ -83,7 +81,7 @@ export function CommunitySignupDialog({
         </DialogHeader>
 
         {submitted ? (
-          <p className="text-xs leading-relaxed text-ink/70">
+          <p className="text-center text-sm leading-relaxed font-normal text-ink/60">
             Thank you for becoming part of Bermejo.
             <br />
             <br />
@@ -98,7 +96,7 @@ export function CommunitySignupDialog({
             Thank you.
           </p>
         ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <Input
               required
               placeholder="Nombre y apellido"
@@ -138,19 +136,19 @@ export function CommunitySignupDialog({
                     setPlatform("");
                     setUsername("");
                   }}
-                  className="shrink-0 text-ink/50 hover:text-brand"
+                  className="shrink-0 text-ink/45 hover:text-brand"
                   aria-label="Cambiar red social"
                 >
                   {platform}
                 </button>
-                <span className="shrink-0 text-ink/50">@</span>
+                <span className="shrink-0 text-ink/45">@</span>
                 <input
                   required
                   autoFocus
                   placeholder="username"
                   value={username}
                   onChange={(event) => setUsername(event.target.value)}
-                  className="w-full bg-transparent normal-case outline-none placeholder:text-ink/40"
+                  className="w-full bg-transparent outline-none placeholder:text-ink/35"
                 />
               </div>
             ) : (
@@ -172,17 +170,17 @@ export function CommunitySignupDialog({
             )}
 
             {error && (
-              <p className="text-xs font-semibold text-destructive uppercase">
+              <p className="text-center text-xs font-normal text-destructive">
                 No se pudo enviar. Intenta de nuevo.
               </p>
             )}
 
-            <DialogFooter className="mt-1">
+            <DialogFooter>
               <Button
                 type="submit"
                 nativeButton
                 disabled={sending}
-                className="w-full rounded-none bg-brand text-xs font-semibold tracking-[0.2em] text-brand-foreground uppercase hover:bg-brand/90 disabled:opacity-50"
+                className="h-12 w-full rounded-none bg-brand text-sm font-normal tracking-wide text-brand-foreground hover:bg-brand/90 disabled:opacity-50"
               >
                 {sending ? "Enviando..." : "Enviar"}
               </Button>

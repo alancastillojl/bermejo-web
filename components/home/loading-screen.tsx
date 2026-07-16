@@ -27,14 +27,16 @@ export function LoadingScreen() {
         fading ? "opacity-0" : "opacity-100"
       }`}
     >
-      <Image
-        src="/images/logo-b.png"
-        alt="Bermejo"
-        width={48}
-        height={48}
-        priority
-        className="h-12 w-auto"
-      />
+      <div className="[perspective:600px]">
+        <Image
+          src="/images/logo-b.png"
+          alt="Bermejo"
+          width={72}
+          height={72}
+          priority
+          className="h-[72px] w-auto animate-spin-x"
+        />
+      </div>
     </div>
   );
 }

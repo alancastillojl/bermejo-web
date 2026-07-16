@@ -149,3 +149,17 @@
 .animate-marquee {
   animation: marquee 35s linear infinite;
 }
+
+@keyframes spin-x {
+  from {
+    transform: rotateX(0deg);
+  }
+  to {
+    transform: rotateX(360deg);
+  }
+}
+
+.animate-spin-x {
+  animation: spin-x 1.4s linear infinite;
+  transform-style: preserve-3d;
+}

@@ -1,4 +1,4 @@
-const PHRASE = "We fight every day, one step at a time, until the light finally finds us";
+const PHRASE = "We show up every day, one step at a time, until things begin to change";
 const REPEAT_COUNT = 6;
 
 function MarqueeGroup() {

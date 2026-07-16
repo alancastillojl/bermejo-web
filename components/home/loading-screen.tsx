@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-const DISPLAY_MS = 1300;
+const DISPLAY_MS = 800;
 const FADE_MS = 250;
 
 export function LoadingScreen() {
@@ -30,10 +30,10 @@ export function LoadingScreen() {
       <Image
         src="/images/logo-b.png"
         alt="Bermejo"
-        width={40}
-        height={40}
+        width={48}
+        height={48}
         priority
-        className="h-10 w-auto"
+        className="h-12 w-auto"
       />
     </div>
   );
